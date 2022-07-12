@@ -1,7 +1,7 @@
 ---
 title: "LASER Badge"
 subtitle: "LASER Institute Orientation"
-author: "YOUR NAME HERE"
+author: "Larisa Olesova"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
   html_document:
@@ -157,9 +157,9 @@ What do you notice about this data set? What do you wonder? Add one-two
 thoughts following the dashes next (you can add additional dashes if you
 like!):
 
--   
+-   quiz data and how much time each student spent
 
--   
+-   there are the lastthree  columns that are not clear at this point
 
 There are other ways to inspect your data; the `glimpse()` function
 provides one such way. Run the code below to take a glimpse at your
@@ -184,11 +184,11 @@ your area of work and/or research.
 
 What rows typically (or you think may) represent:
 
--   
+-   cases or individual students in my research
 
 What columns typically (or you think may) represent:
 
--   
+-   variables, i.e., grades
 
 Next, we'll use a few functions that are handy for preparing data in
 table form.
@@ -235,7 +235,7 @@ variable to this code.
 
 ```{r}
 d |> 
-  select(student_id, total_points_possible, total_points_earned)
+  select(student_id, total_points_possible, total_points_earned, TimeSpent)
 ```
 
 Once added, the output should be different than in the code above -
@@ -261,13 +261,13 @@ play around with the code a bit!).
 
 ```{r}
 d |> 
-  filter(FinalGradeCEMS > 70)
+  filter(FinalGradeCEMS > 50)
 ```
 
 What happens when you change the cut-off from 70 to something else? Add
 a thought (or more):
 
--   
+-  Cases changed from 438 rows to 510 rows meaning 510 students went cut-off from 50 
 
 ### Arrange
 
@@ -302,8 +302,8 @@ glimpsed at the names of all of the variables.
 
 ```{r}
 d |> 
-  select(student_id, FinalGradeCEMS) |> 
-  arrange(desc(FinalGradeCEMS))
+  select(student_id, TimeSpent) |> 
+  arrange(desc(TimeSpent))
 ```
 
 ### Reach 1 🎉
@@ -357,7 +357,7 @@ consider this list of valid color names here:
 
 ```{r}
 ggplot(d, aes(x = FinalGradeCEMS)) +
-  geom_histogram(fill = "blue")
+  geom_histogram(fill = "pink")
 ```
 
 Finally, we'll make one more change; visualize the distribution of
@@ -366,8 +366,8 @@ so by swapping out the name for another variable with FinalGradeCEMS.
 Also, change the color to one other than blue.
 
 ```{r}
-ggplot(d, aes(x = FinalGradeCEMS)) +
-  geom_histogram(fill = "blue")
+ggplot(d, aes(x = TimeSpent)) +
+  geom_histogram(fill = "green")
 ```
 
 ### Reach 2 🎉
@@ -378,7 +378,7 @@ the names of two variables to the code below for what is now simply XXX
 (a placeholder).
 
 ```{r}
-ggplot(d, aes(x = XXX, y = XXX)) +
+ggplot(d, aes(x = TimeSpent, y = FinalGradeCEMS)) +
   geom_point()
 ```
 
@@ -412,7 +412,7 @@ results? We're going to dive into this *much* more: if you have many
 questions now, you're in the right spot!
 
 ```{r}
-m2 <- lm(FinalGradeCEMS ~ TimeSpent + subject, data = d)
+m2 <- lm(FinalGradeCEMS ~ TimeSpent + semester, data = d)
 summary(m2)
 ```
 
